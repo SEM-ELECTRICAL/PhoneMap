@@ -73,6 +73,8 @@ class TrackView @JvmOverloads constructor(
         val (playerX, playerY) = latLonToPixels(playerLat, playerLon)
         val (ghostX, ghostY) = latLonToPixels(ghostLat, ghostLon)
 
+// LOGGING METHOD TO SEE WHAT IS WRONG
+
 //        if (System.currentTimeMillis() % 1000 < 20) {
 //            android.util.Log.d("TRACK_DEBUG", "------------------------------------------")
 //            android.util.Log.d("TRACK_DEBUG", "Map Size: W=${trackBitmap?.width} H=${trackBitmap?.height}")
