@@ -5,6 +5,7 @@ import android.util.Log
 import java.io.BufferedReader
 import java.io.InputStreamReader
 
+// Created a Integration branch
 data class GhostPoint(var timeMs: Long, val lat: Double, val lon: Double)
 
 class GhostManager(context: Context) {
