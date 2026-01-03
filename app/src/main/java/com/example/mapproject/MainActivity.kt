@@ -123,6 +123,9 @@ class MainActivity : AppCompatActivity(), LocationListener {
 
         ghostManager = GhostManager(this)
 
+        // NEW: Send the full path to the view for drawing
+        trackView.setGhostLine(ghostManager.getAllPoints())
+
         // 1. Load Image
         var bitmap = decodeSampledBitmapFromResource(resources, R.drawable.track_map, 2048, 2048)
 

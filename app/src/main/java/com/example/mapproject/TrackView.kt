@@ -28,17 +28,34 @@ class TrackView @JvmOverloads constructor(
     private var ghostLat: Double = 0.0
     private var ghostLon: Double = 0.0
 
-    var calibrationLatOffset: Double = -0.000045
-    var calibrationLonOffset: Double = -0.000035
+    var calibrationLatOffset: Double = -0.000000
+    var calibrationLonOffset: Double = -0.000000
 
 
     // Zoom: 1.0 is fit to screen, 3.0 is zoomed in
-    var zoomLevel: Float = 6.0f
+    var zoomLevel: Float = 3.0f
 
     // Paints
     private val playerPaint = Paint().apply { color = Color.RED; style = Paint.Style.FILL; isAntiAlias = true }
     private val ghostPaint = Paint().apply { color = Color.parseColor("#448AFF"); style = Paint.Style.FILL; alpha = 150; isAntiAlias = true }
     private val mapPaint = Paint().apply { isFilterBitmap = true }
+
+    // 1. Add a Paint object for the racing line
+    private val linePaint = Paint().apply {
+        color = Color.GREEN // Bright green to stand out
+        style = Paint.Style.STROKE
+        strokeWidth = 5f
+        isAntiAlias = true
+    }
+
+    // 2. Variable to hold the data
+    private var fullGhostPath: List<GhostPoint>? = null
+
+    // 3. Setter function
+    fun setGhostLine(points: List<GhostPoint>) {
+        this.fullGhostPath = points
+        invalidate()
+    }
 
     fun setupTrack(bitmap: Bitmap, tlLat: Double, tlLon: Double, brLat: Double, brLon: Double) {
         this.trackBitmap = bitmap
@@ -106,9 +123,29 @@ class TrackView @JvmOverloads constructor(
         // Draw World
         canvas.drawBitmap(trackBitmap!!, 0f, 0f, mapPaint)
 
+        if (fullGhostPath != null && fullGhostPath!!.isNotEmpty()) {
+            val path = Path()
+
+            // Move to the first point
+            val (startX, startY) = latLonToPixels(fullGhostPath!![0].lat, fullGhostPath!![0].lon)
+            path.moveTo(startX, startY)
+
+            // Draw lines to all subsequent points
+            // (Step by 5 to improve performance if you have thousands of points)
+            for (i in 1 until fullGhostPath!!.size step 1) {
+                val p = fullGhostPath!![i]
+                val (px, py) = latLonToPixels(p.lat, p.lon)
+                path.lineTo(px, py)
+            }
+
+            canvas.drawPath(path, linePaint)
+        }
+
         if (isGhostActive) {
             canvas.drawCircle(ghostX, ghostY, 20f, ghostPaint)
         }
+
+
 
         canvas.restore()
 

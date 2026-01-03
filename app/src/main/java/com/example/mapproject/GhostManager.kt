@@ -11,6 +11,10 @@ data class GhostPoint(var timeMs: Long, val lat: Double, val lon: Double)
 class GhostManager(context: Context) {
     private val points = mutableListOf<GhostPoint>()
 
+    fun getAllPoints(): List<GhostPoint> {
+        return points
+    }
+
     init {
         try {
             Log.d("GHOST_DEBUG", "Attempting to open ghost_data.csv...")
