@@ -28,8 +28,8 @@ class TrackView @JvmOverloads constructor(
     private var ghostLat: Double = 0.0
     private var ghostLon: Double = 0.0
 
-    var calibrationLatOffset: Double = -0.000000
-    var calibrationLonOffset: Double = -0.000000
+    var calibrationLatOffset: Double = -0.000070
+    var calibrationLonOffset: Double = -0.000070
 
 
     // Zoom: 1.0 is fit to screen, 3.0 is zoomed in

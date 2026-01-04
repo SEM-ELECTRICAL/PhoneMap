@@ -169,6 +169,26 @@ class MainActivity : AppCompatActivity(), LocationListener {
             }
         }
 
+        // --- ZOOM LOGIC ---
+        val btnZoomIn = findViewById<android.widget.Button>(R.id.btnZoomIn)
+        val btnZoomOut = findViewById<android.widget.Button>(R.id.btnZoomOut)
+
+        btnZoomIn.setOnClickListener {
+            // Increase zoom by 0.5
+            trackView.zoomLevel += 0.5f
+            trackView.invalidate()
+            Toast.makeText(this, "Zoom: ${trackView.zoomLevel}", Toast.LENGTH_SHORT).show()
+        }
+
+        btnZoomOut.setOnClickListener {
+            // Decrease zoom, but don't let it go below 0.5 (too small)
+            if (trackView.zoomLevel > 0.5f) {
+                trackView.zoomLevel -= 0.5f
+                trackView.invalidate()
+                Toast.makeText(this, "Zoom: ${trackView.zoomLevel}", Toast.LENGTH_SHORT).show()
+            }
+        }
+
         // --- CALIBRATION LOGIC ---
         val btnUp = findViewById<android.widget.Button>(R.id.btnUp)
         val btnDown = findViewById<android.widget.Button>(R.id.btnDown)
